@@ -3,7 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 require("../styles/styles.less");
 
-import { Card } from "antd";
+// import { Card } from "antd";
 
 const Home: NextPage = () => {
   return (
@@ -64,10 +64,29 @@ const Home: NextPage = () => {
       </nav>
 
       <div className="main-layout">
-        <div className="card">Card Test</div>
+        <Card />
       </div>
     </div>
   );
 };
 
 export default Home;
+
+const Card: React.FC = () => {
+  return (
+    <div className="card">
+      <div className="card-title-area">
+        <div className="card-title">Custom Title</div>
+        <div className="card-buttons">
+          <button>Edit</button>
+          <button>Copy</button>
+          <button>Delete</button>
+        </div>
+      </div>
+
+      <div className="card-line"></div>
+
+      <div className="card-body">Custom body text</div>
+    </div>
+  );
+};
