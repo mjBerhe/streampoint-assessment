@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "antd": "^4.18.9",
     "next": "12.1.0",
     "next-plugin-antd-less": "^1.8.0",
     "next-with-less": "^2.0.5",
