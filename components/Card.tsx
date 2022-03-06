@@ -1,25 +1,37 @@
 import { useState } from "react";
-import { Drawer, Input } from "antd";
-import { SettingOutlined, FormatPainterOutlined } from "@ant-design/icons";
-import { AntdIconProps } from "@ant-design/icons/lib/components/AntdIcon";
+import { Drawer, Input, Divider } from "antd";
+import {
+  SettingOutlined,
+  FormatPainterOutlined,
+  EditTwoTone,
+  CopyTwoTone,
+  DeleteTwoTone,
+} from "@ant-design/icons";
+import { BlockPicker } from "react-color";
 
 const { TextArea } = Input;
 
 type TabName = "settings" | "styles";
 type TabItem = {
   name: TabName;
-  icon: JSX.Element;
+  icon: (selected: boolean) => JSX.Element;
 };
 
 const tabs: TabItem[] = [
   {
     name: "settings",
-    icon: <SettingOutlined style={{ fontSize: "20px", color: "#4f4f4f" }} />,
+    icon: (selected) => (
+      <SettingOutlined
+        className={selected ? "icon-selected" : "icon-unselected"}
+      />
+    ),
   },
   {
     name: "styles",
-    icon: (
-      <FormatPainterOutlined style={{ fontSize: "20px", color: "#4f4f4f" }} />
+    icon: (selected) => (
+      <FormatPainterOutlined
+        className={selected ? "icon-selected" : "icon-unselected"}
+      />
     ),
   },
 ];
@@ -27,8 +39,10 @@ const tabs: TabItem[] = [
 const Card: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<TabName>("settings");
+
   const [titleInput, setTitleInput] = useState<string>("");
   const [bodyInput, setBodyInput] = useState<string>("");
+  const [titleSize, setTitleSize] = useState<number>(36);
 
   const showDrawer = () => {
     setVisible(true);
@@ -42,26 +56,40 @@ const Card: React.FC = () => {
     setCurrentTab(tab);
   };
 
+  const [titleColor, setTitleColor] = useState<string>("#0e2748");
+  const [isTitleColorOpen, setIsTitleColorOpen] = useState<boolean>(false);
+  const [bodyColor, setBodyColor] = useState<string>("#4f4f4f");
+  const [isBodyColorOpen, setIsBodyColorOpen] = useState<boolean>(false);
+  const [panelColor, setPanelColor] = useState<string>("#ffffff");
+  const [isPanelColorOpen, setIsPanelColorOpen] = useState<boolean>(false);
+
   return (
     <>
-      <div className="card">
+      <div className="card" style={{ backgroundColor: panelColor }}>
         <div className="card-title-area">
-          <div className="card-title">
+          <div className="card-title" style={{ color: titleColor }}>
             {titleInput ? titleInput : "Custom Title"}
           </div>
           <div className="card-buttons">
-            <button onClick={showDrawer}>Edit</button>
-            <button>Copy</button>
-            <button>Delete</button>
+            <button onClick={showDrawer}>
+              <EditTwoTone className="card-icon" />
+            </button>
+            <button>
+              <CopyTwoTone className="card-icon" />
+            </button>
+            <button>
+              <DeleteTwoTone className="card-icon" />
+            </button>
           </div>
         </div>
 
         <div className="card-line"></div>
 
-        <div className="card-body">
+        <div className="card-body" style={{ color: bodyColor }}>
           {bodyInput ? bodyInput : "Custom body text"}
         </div>
       </div>
+
       <Drawer
         onClose={onClose}
         visible={visible}
@@ -98,7 +126,7 @@ const Card: React.FC = () => {
                 }
                 onClick={() => handleTabChange(tab.name)}
               >
-                {tab.icon}
+                {tab.icon(currentTab === tab.name)}
               </button>
             ))}
           </div>
@@ -109,6 +137,7 @@ const Card: React.FC = () => {
                   <label htmlFor="titleInput">Title Text</label>
                   <Input
                     id="titleInput"
+                    className="settings-inputbox"
                     type="text"
                     placeholder="Enter custom title"
                     value={titleInput}
@@ -120,6 +149,7 @@ const Card: React.FC = () => {
                   <label htmlFor="bodyInput">Body Text</label>
                   <TextArea
                     id="bodyInput"
+                    className="settings-textarea"
                     placeholder="Enter custom text"
                     value={bodyInput}
                     onChange={(e) => setBodyInput(e.currentTarget.value)}
@@ -127,7 +157,98 @@ const Card: React.FC = () => {
                 </div>
               </div>
             )}
-            {currentTab === "styles" && <div>styles</div>}
+            {currentTab === "styles" && (
+              <div className="styles-tab">
+                <div className="styles-section">
+                  <label className="styles-heading">Title</label>
+                  <div className="styles-body-container">
+                    <div className="styles-body-section">
+                      <h4>Size</h4>
+                      <Input placeholder="36px" className="styles-input" />
+                    </div>
+                    <div className="styles-body-section">
+                      <h4>Color</h4>
+                      <div
+                        className="styles-color-picker"
+                        style={{ zIndex: isTitleColorOpen ? 100 : 1 }}
+                      >
+                        <button
+                          style={{ backgroundColor: titleColor }}
+                          onClick={() => setIsTitleColorOpen((prev) => !prev)}
+                        ></button>
+                        {isTitleColorOpen && (
+                          <BlockPicker
+                            className="block-picker"
+                            color={titleColor}
+                            onChange={(color) => setTitleColor(color.hex)}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <Divider />
+
+                <div className="styles-section">
+                  <label className="styles-heading">Body</label>
+                  <div className="styles-body-container">
+                    <div className="styles-body-section">
+                      <h4>Size</h4>
+                      <Input placeholder="36px" className="styles-input" />
+                    </div>
+                    <div className="styles-body-section">
+                      <h4>Color</h4>
+                      <div
+                        className="styles-color-picker"
+                        style={{ zIndex: isBodyColorOpen ? 100 : 1 }}
+                      >
+                        <button
+                          style={{ backgroundColor: bodyColor }}
+                          onClick={() => setIsBodyColorOpen((prev) => !prev)}
+                        ></button>
+                        {isBodyColorOpen && (
+                          <BlockPicker
+                            className="block-picker"
+                            color={bodyColor}
+                            onChange={(color) => setBodyColor(color.hex)}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <Divider />
+
+                <div className="styles-section">
+                  <label className="styles-heading">Panel</label>
+                  <div className="styles-body-container">
+                    <div className="styles-body-section">
+                      <h4>Size</h4>
+                      <Input placeholder="36px" className="styles-input" />
+                    </div>
+                    <div className="styles-body-section">
+                      <h4>Color</h4>
+                      <div
+                        className="styles-color-picker"
+                        style={{ zIndex: isPanelColorOpen ? 100 : 1 }}
+                      >
+                        <button
+                          style={{ backgroundColor: panelColor }}
+                          onClick={() => setIsPanelColorOpen((prev) => !prev)}
+                        ></button>
+                        {isPanelColorOpen && (
+                          <BlockPicker
+                            className="block-picker"
+                            color={panelColor}
+                            onChange={(color) => setPanelColor(color.hex)}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </Drawer>
