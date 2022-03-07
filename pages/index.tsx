@@ -1,9 +1,48 @@
 import type { NextPage } from "next";
+import { useState } from "react";
 require("../styles/styles.less");
 
 import Card from "../components/Card";
 
+type CardProps = {
+  index: number;
+  titleInput: string;
+  bodyInput: string;
+  titleSize: number;
+  bodySize: number;
+  borderSize: number;
+  titleColor: string;
+  bodyColor: string;
+  panelColor: string;
+  duplicateCard?: (card: any) => void;
+};
+
 const Home: NextPage = () => {
+  const [cardCount, setCardCount] = useState<number>(0);
+  const [cards, setCards] = useState<CardProps[]>([
+    {
+      index: cardCount,
+      titleInput: "",
+      bodyInput: "",
+      titleSize: 36,
+      bodySize: 16,
+      borderSize: 16,
+      titleColor: "#0e2748",
+      bodyColor: "#4f4f4f",
+      panelColor: "#ffffff",
+    },
+  ]);
+
+  const duplicateCard = (card: CardProps) => {
+    const newIndex = cardCount + 1;
+    const newCard = {
+      ...card,
+      index: newIndex,
+    };
+    setCards((prev) => [...prev, newCard]);
+    setCardCount((prev) => prev + 1);
+  };
+
   return (
     <div>
       <nav>
@@ -62,7 +101,10 @@ const Home: NextPage = () => {
       </nav>
 
       <div className="main-layout">
-        <Card />
+        {cards.map((card) => (
+          <Card key={card.index} {...card} duplicateCard={duplicateCard} />
+        ))}
+        {/* <Card /> */}
       </div>
     </div>
   );

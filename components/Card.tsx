@@ -11,12 +11,6 @@ import { BlockPicker } from "react-color";
 
 const { TextArea } = Input;
 
-type TabName = "settings" | "styles";
-type TabItem = {
-  name: TabName;
-  icon: (selected: boolean) => JSX.Element;
-};
-
 const tabs: TabItem[] = [
   {
     name: "settings",
@@ -36,12 +30,29 @@ const tabs: TabItem[] = [
   },
 ];
 
-const Card: React.FC = () => {
+type Props = {
+  titleInput: string;
+  bodyInput: string;
+  titleSize: number;
+  bodySize: number;
+  borderSize: number;
+  titleColor: string;
+  bodyColor: string;
+  panelColor: string;
+  duplicateCard?: (card: any) => void;
+};
+type TabName = "settings" | "styles";
+type TabItem = {
+  name: TabName;
+  icon: (selected: boolean) => JSX.Element;
+};
+
+const Card: React.FC<Props> = (props) => {
   const [visible, setVisible] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<TabName>("settings");
 
-  const [titleInput, setTitleInput] = useState<string>("");
-  const [bodyInput, setBodyInput] = useState<string>("");
+  const [titleInput, setTitleInput] = useState<string>(props.titleInput);
+  const [bodyInput, setBodyInput] = useState<string>(props.bodyInput);
 
   const showDrawer = () => {
     setVisible(true);
@@ -55,16 +66,31 @@ const Card: React.FC = () => {
     setCurrentTab(tab);
   };
 
-  const [titleSize, setTitleSize] = useState<number>(36);
-  const [bodySize, setBodySize] = useState<number>(16);
-  const [borderSize, setBorderSize] = useState<number>(16);
+  const [titleSize, setTitleSize] = useState<number>(props.titleSize);
+  const [bodySize, setBodySize] = useState<number>(props.bodySize);
+  const [borderSize, setBorderSize] = useState<number>(props.borderSize);
 
-  const [titleColor, setTitleColor] = useState<string>("#0e2748");
+  const [titleColor, setTitleColor] = useState<string>(props.titleColor);
   const [isTitleColorOpen, setIsTitleColorOpen] = useState<boolean>(false);
-  const [bodyColor, setBodyColor] = useState<string>("#4f4f4f");
+  const [bodyColor, setBodyColor] = useState<string>(props.bodyColor);
   const [isBodyColorOpen, setIsBodyColorOpen] = useState<boolean>(false);
-  const [panelColor, setPanelColor] = useState<string>("#ffffff");
+  const [panelColor, setPanelColor] = useState<string>(props.panelColor);
   const [isPanelColorOpen, setIsPanelColorOpen] = useState<boolean>(false);
+
+  const duplicateCard = () => {
+    if (props.duplicateCard) {
+      props.duplicateCard({
+        titleInput,
+        bodyInput,
+        titleSize,
+        bodySize,
+        borderSize,
+        titleColor,
+        bodyColor,
+        panelColor,
+      });
+    }
+  };
 
   const handleOpenTitleColor = () => {
     if (isTitleColorOpen) {
@@ -100,7 +126,11 @@ const Card: React.FC = () => {
     <>
       <div
         className="card"
-        style={{ backgroundColor: panelColor, borderRadius: `${borderSize}px` }}
+        style={{
+          backgroundColor: panelColor,
+          borderRadius: `${borderSize}px`,
+          border: visible ? "1px solid #00A3FF" : "",
+        }}
       >
         <div className="card-title-area">
           <div
@@ -113,7 +143,7 @@ const Card: React.FC = () => {
             <button onClick={showDrawer}>
               <EditTwoTone className="card-icon" />
             </button>
-            <button>
+            <button onClick={duplicateCard}>
               <CopyTwoTone className="card-icon" />
             </button>
             <button>
