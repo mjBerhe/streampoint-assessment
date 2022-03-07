@@ -118,7 +118,6 @@ const Home: NextPage = () => {
             canDelete={cards.length > 1 ? true : false}
           />
         ))}
-        {/* <Card /> */}
       </div>
     </div>
   );
