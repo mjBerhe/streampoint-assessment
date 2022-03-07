@@ -15,6 +15,7 @@ type CardProps = {
   bodyColor: string;
   panelColor: string;
   duplicateCard?: (card: any) => void;
+  deleteCard?: (index: number) => void;
 };
 
 const Home: NextPage = () => {
@@ -41,6 +42,13 @@ const Home: NextPage = () => {
     };
     setCards((prev) => [...prev, newCard]);
     setCardCount((prev) => prev + 1);
+  };
+
+  const deleteCard = (index: number) => {
+    const tempCards = [...cards];
+    const cardIndex = tempCards.findIndex((card) => card.index === index);
+    tempCards.splice(cardIndex, 1);
+    setCards(tempCards);
   };
 
   return (
@@ -102,7 +110,13 @@ const Home: NextPage = () => {
 
       <div className="main-layout">
         {cards.map((card) => (
-          <Card key={card.index} {...card} duplicateCard={duplicateCard} />
+          <Card
+            key={card.index}
+            {...card}
+            duplicateCard={duplicateCard}
+            deleteCard={deleteCard}
+            canDelete={cards.length > 1 ? true : false}
+          />
         ))}
         {/* <Card /> */}
       </div>

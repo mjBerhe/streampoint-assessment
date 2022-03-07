@@ -31,6 +31,7 @@ const tabs: TabItem[] = [
 ];
 
 type Props = {
+  index: number;
   titleInput: string;
   bodyInput: string;
   titleSize: number;
@@ -40,6 +41,8 @@ type Props = {
   bodyColor: string;
   panelColor: string;
   duplicateCard?: (card: any) => void;
+  deleteCard?: (index: number) => void;
+  canDelete: boolean;
 };
 type TabName = "settings" | "styles";
 type TabItem = {
@@ -89,6 +92,12 @@ const Card: React.FC<Props> = (props) => {
         bodyColor,
         panelColor,
       });
+    }
+  };
+
+  const deleteCard = () => {
+    if (props.deleteCard && props.canDelete) {
+      props.deleteCard(props.index);
     }
   };
 
@@ -146,8 +155,11 @@ const Card: React.FC<Props> = (props) => {
             <button onClick={duplicateCard}>
               <CopyTwoTone className="card-icon" />
             </button>
-            <button>
-              <DeleteTwoTone className="card-icon" />
+            <button onClick={deleteCard}>
+              <DeleteTwoTone
+                className="card-icon"
+                twoToneColor={props.canDelete ? "#00a3ff" : "#e0e0e0"}
+              />
             </button>
           </div>
         </div>
