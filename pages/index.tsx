@@ -53,7 +53,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <div>
+    <div className="page-layout">
       <Nav />
 
       <div className="main-layout">
