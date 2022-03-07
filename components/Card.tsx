@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BlockPicker } from "react-color";
 import { Drawer, Input, InputNumber, Divider } from "antd";
 import {
   SettingOutlined,
@@ -7,7 +8,6 @@ import {
   CopyTwoTone,
   DeleteTwoTone,
 } from "@ant-design/icons";
-import { BlockPicker } from "react-color";
 
 const { TextArea } = Input;
 
@@ -29,6 +29,11 @@ const tabs: TabItem[] = [
     ),
   },
 ];
+type TabName = "settings" | "styles";
+type TabItem = {
+  name: TabName;
+  icon: (selected: boolean) => JSX.Element;
+};
 
 type Props = {
   index: number;
@@ -43,11 +48,6 @@ type Props = {
   duplicateCard?: (card: any) => void;
   deleteCard?: (index: number) => void;
   canDelete: boolean;
-};
-type TabName = "settings" | "styles";
-type TabItem = {
-  name: TabName;
-  icon: (selected: boolean) => JSX.Element;
 };
 
 const Card: React.FC<Props> = (props) => {
@@ -141,7 +141,7 @@ const Card: React.FC<Props> = (props) => {
           border: visible ? "1px solid #00A3FF" : "",
         }}
       >
-        <div className="card-title-area">
+        <div className="card-heading-container">
           <div
             className="card-title"
             style={{ color: titleColor, fontSize: `${titleSize}px` }}
@@ -163,9 +163,7 @@ const Card: React.FC<Props> = (props) => {
             </button>
           </div>
         </div>
-
-        <div className="card-line"></div>
-
+        <Divider />
         <div
           className="card-body"
           style={{ color: bodyColor, fontSize: `${bodySize}px` }}
@@ -192,7 +190,7 @@ const Card: React.FC<Props> = (props) => {
           background: "transparent",
         }}
       >
-        <div className="menu-container">
+        <div className="drawer-container">
           <div className="drawer-tabs">
             {tabs.map((tab) => (
               <button
@@ -209,8 +207,8 @@ const Card: React.FC<Props> = (props) => {
             ))}
           </div>
           {currentTab === "settings" && (
-            <div className="settings-tab">
-              <div className="settings-input">
+            <div className="settings-container">
+              <div className="settings-section">
                 <label htmlFor="titleInput">Title Text</label>
                 <Input
                   id="titleInput"
@@ -222,7 +220,7 @@ const Card: React.FC<Props> = (props) => {
                 />
               </div>
 
-              <div className="settings-input">
+              <div className="settings-section">
                 <label htmlFor="bodyInput">Body Text</label>
                 <TextArea
                   id="bodyInput"
@@ -235,7 +233,7 @@ const Card: React.FC<Props> = (props) => {
             </div>
           )}
           {currentTab === "styles" && (
-            <div className="styles-tab">
+            <div className="styles-container">
               <div className="styles-section">
                 <label className="styles-heading">Title</label>
                 <div className="styles-body-container">

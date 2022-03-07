@@ -1,84 +1,100 @@
-.menu-container {
+.drawer-container {
   display: flex;
   flex-direction: column;
+
+  .drawer-tabs {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .drawer-button-selected {
+      all: unset;
+      cursor: pointer;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding: 16px 0;
+      border-bottom: 2px solid @light-blue;
+    }
+
+    .drawer-button-unselected {
+      all: unset;
+      cursor: pointer;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding: 16px 0;
+      border-bottom: 2px solid @gray-border;
+    }
+
+    .icon-selected {
+      color: @gray-text;
+      font-size: 20px;
+      &:hover {
+        color: @light-blue;
+      }
+    }
+
+    .icon-unselected {
+      color: #bdbdbd;
+      font-size: 20px;
+      &:hover {
+        color: @light-blue;
+      }
+    }
+  }
 }
 
-.drawer-tabs {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.drawer-button-selected {
-  all: unset;
-  cursor: pointer;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 16px 0;
-  border-bottom: 2px solid @light-blue;
-}
-
-.drawer-button-unselected {
-  all: unset;
-  cursor: pointer;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 16px 0;
-  border-bottom: 2px solid @gray-border;
-}
-
-.settings-tab {
+.settings-container {
   padding: 10px 24px;
-}
 
-.settings-input {
-  display: flex;
-  flex-direction: column;
-  margin: 24px 0px;
+  .settings-section {
+    display: flex;
+    flex-direction: column;
+    margin: 24px 0px;
 
-  label {
-    color: @gray-text;
-    font-family: Ubuntu;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 17px;
+    label {
+      color: @gray-text;
+      font-family: Ubuntu;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 17px;
 
-    margin-bottom: 8px;
-  }
+      margin-bottom: 8px;
+    }
 
-  .settings-inputbox {
-    height: 40px;
-    border: 1px solid #e0e0e0;
-    box-sizing: border-box;
-    border-radius: 4px;
+    .settings-inputbox {
+      height: 40px;
+      border: 1px solid #e0e0e0;
+      box-sizing: border-box;
+      border-radius: 4px;
 
-    &:focus,
-    &:hover {
-      border: 1px solid @light-blue;
+      &:focus,
+      &:hover {
+        border: 1px solid @light-blue;
+      }
+    }
+
+    .settings-textarea {
+      height: 115px;
+      border: 1px solid #e0e0e0;
+      box-sizing: border-box;
+      border-radius: 4px;
+
+      &:focus,
+      &:hover {
+        border: 1px solid @light-blue;
+      }
     }
   }
-
-  .settings-textarea {
-    height: 115px;
-    border: 1px solid #e0e0e0;
-    box-sizing: border-box;
-    border-radius: 4px;
-
-    &:focus,
-    &:hover {
-      border: 1px solid @light-blue;
-    }
-  }
 }
 
-.styles-tab {
+.styles-container {
   padding: 34px 24px;
 
   .styles-section {
@@ -94,7 +110,6 @@
       color: @light-blue;
 
       margin-bottom: 24px;
-      // border: 1px solid black;
     }
 
     .styles-body-container {
@@ -154,7 +169,6 @@
           right: 50%;
           margin-top: -6px;
           margin-left: 40px;
-          // border: 1px solid black;
         }
       }
     }

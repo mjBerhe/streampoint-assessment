@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&family=Ubuntu:wght@500&display=swap");
 @import "card";
-@import "tabs";
+@import "drawer";
 
 @bg-main: #f9fbfd;
 @light-blue: #00a3ff;
@@ -15,7 +15,6 @@
 
 body {
   background-color: @bg-main;
-  // font-family: Ubuntu;
 }
 
 nav {
@@ -31,22 +30,6 @@ nav {
   background-color: white;
   border: 1px solid @gray-border;
   box-sizing: border-box;
-}
-
-.icon-selected {
-  color: @gray-text;
-  font-size: 20px;
-  &:hover {
-    color: @light-blue;
-  }
-}
-
-.icon-unselected {
-  color: #bdbdbd;
-  font-size: 20px;
-  &:hover {
-    color: @light-blue;
-  }
 }
 
 .main-layout {
